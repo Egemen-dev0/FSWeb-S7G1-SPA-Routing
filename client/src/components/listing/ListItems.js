@@ -35,7 +35,7 @@ const ListItems = (props) => {
       ) : (
         trendList.results ? (
           trendList.results.map((item, index) => (
-            <TrendDetail key={index} original_title={item.original_title} />
+            <TrendDetail key={index} img={item.poster_path} />
           ))
         ) : (
           <p>No results found</p>
