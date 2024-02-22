@@ -2,7 +2,7 @@ import React from "react";
 import Home from "./components/Home";
 import ListItems from "./components/listing/ListItems";
 import data from "./FetchedDatas/tmdb_Trending_All_Request";
-
+import './style.css'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default function App() {

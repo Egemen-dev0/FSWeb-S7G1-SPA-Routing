@@ -9,21 +9,21 @@ import TVDetails from "../TVDetails"
 
 const ListItems = (props) => {
   const [trendList, setTrendList] = useState({});
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
   const [prevTrendName, setPrevTrendName] = useState('');
   const params = useParams();
 
   useEffect(() => {
     const getTrendList = async (trendName) => {
       try {
-        setLoading(true); // Set loading state to true before fetching
+        setLoading(true); 
         let result = await data.getTrendRequest(trendName, data.time_window.week, 1);
         console.log(result)
         setTrendList(result);
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); // Set loading state to false after fetching
+        setLoading(false); 
       }
     };
 
@@ -35,17 +35,19 @@ const ListItems = (props) => {
 
   return (
     <>
-      {loading ? ( // Show loading message if loading state is true
+      {loading ? ( 
         <p>Yükleniyor</p>
       ) : (
         trendList.results ? (
           trendList.results.map((item, index) => (
             
             <TrendDetail  key={index}
-            name={item.name} 
-            overview={item.overview || item.known_for_department}
-            poster_path={item.poster_path || item.profile_path}
-            vote_average={item.vote_average} />
+            name={item.name || item.original_title} 
+            // overview={item.overview || item.known_for_department}
+            overview={item.overview !== undefined ? item.overview : null}
+            profession={item.known_for_department}
+            poster_path={item.poster_path ||item.profile_path}
+            vote_average={item.vote_average || item.popularity}   />
           ))
         ) : (
           <p>No results found</p>
