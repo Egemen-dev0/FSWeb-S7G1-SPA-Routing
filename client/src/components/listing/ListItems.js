@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import data from "./../../FetchedDatas/tmdb_Trending_All_Request";
 import TrendDetail from "../TrendDetail";
+import FilmsDetails from "../FilmsDetails"
+import PeopleDetails from "../PeopleDetails"
+import TVDetails from "../TVDetails"
+
 
 const ListItems = (props) => {
   const [trendList, setTrendList] = useState({});
@@ -14,6 +18,7 @@ const ListItems = (props) => {
       try {
         setLoading(true); // Set loading state to true before fetching
         let result = await data.getTrendRequest(trendName, data.time_window.week, 1);
+        console.log(result)
         setTrendList(result);
       } catch (error) {
         console.error(error);
@@ -35,7 +40,12 @@ const ListItems = (props) => {
       ) : (
         trendList.results ? (
           trendList.results.map((item, index) => (
-            <TrendDetail key={index} img={item.poster_path} />
+            
+            <TrendDetail  key={index}
+            name={item.name} 
+            overview={item.overview || item.known_for_department}
+            poster_path={item.poster_path || item.profile_path}
+            vote_average={item.vote_average} />
           ))
         ) : (
           <p>No results found</p>
