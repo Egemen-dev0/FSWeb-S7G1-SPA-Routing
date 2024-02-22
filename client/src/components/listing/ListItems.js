@@ -2,65 +2,51 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import data from "./../../FetchedDatas/tmdb_Trending_All_Request";
 import TrendDetail from "../TrendDetail";
-import FilmsDetail from "../FilmsDetails";
-import PeopleDetail from "../PeopleDetails";
-import TVDetail from "../TVDetails";
-const ListItems = () => {
-  const [contentList, setContentList] = useState([]);
+
+const ListItems = (props) => {
+  const [trendList, setTrendList] = useState({});
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [prevTrendName, setPrevTrendName] = useState('');
   const params = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      let result;
-      switch (params.name) {
-        case 'trends':
-          result = await getTrendRequest('trend', 'week', 1); // Fetching trend data for a week
-          break;
-        case 'films':
-          result = await getTrendRequest('movie', 'week', 1); // Fetching movie data for a week
-          break;
-        case 'people':
-          result = await getTrendRequest('person', 'day', 1); // Fetching person data for a day
-          break;
-        case 'tv':
-          result = await getTrendRequest('tv', 'day', 1); // Fetching TV data for a day
-          break;
-        default:
-          result = { results: [] };
+    const getTrendList = async (trendName) => {
+      try {
+        setLoading(true); // Set loading state to true before fetching
+        let result = await data.getTrendRequest(trendName, data.time_window.week, 1);
+        setTrendList(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // Set loading state to false after fetching
       }
-      setContentList(result.results || []);
     };
 
-    fetchData();
-  }, [params.name]);
-
-  const renderContentDetail = (item) => {
-    switch (params.name) {
-      case 'trends':
-        return <TrendDetail key={item.id} {...item} />;
-      case 'films':
-        return <FilmsDetail key={item.id} {...item} />;
-      case 'people':
-        return <PeopleDetail key={item.id} {...item} />;
-      case 'tv':
-        return <TVDetail key={item.id} {...item} />;
-      default:
-        return null;
+    if (params.name !== prevTrendName) {
+      setPrevTrendName(params.name);
+      getTrendList(params.name);
     }
-  };
+  }, [params.name, prevTrendName]);
 
   return (
     <>
-      {contentList.length > 0 ? 
-        contentList.map((item) => renderContentDetail(item))
-      :
-        <p>Loading...</p>
-      }
+      {loading ? ( // Show loading message if loading state is true
+        <p>Yükleniyor</p>
+      ) : (
+        trendList.results ? (
+          trendList.results.map((item, index) => (
+            <TrendDetail key={index} original_title={item.original_title} />
+          ))
+        ) : (
+          <p>No results found</p>
+        )
+      )}
     </>
   );
 };
 
 export default ListItems;
+
 
 
 
