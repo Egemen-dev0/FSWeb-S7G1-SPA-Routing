@@ -29,7 +29,6 @@ const getTrendRequest = async function (trend_type, time_window, pageNo = 1) {
 
     let data = await response.json();
 
-
     return data;
   } catch (error) {
     console.log("Error fetching data ", error);
