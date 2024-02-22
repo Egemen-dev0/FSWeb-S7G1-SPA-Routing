@@ -3,7 +3,6 @@ import Home from "./components/Home";
 import ListItems from "./components/listing/ListItems";
 import data from "./FetchedDatas/tmdb_Trending_All_Request";
 
-// import react route components
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default function App() {
@@ -31,12 +30,5 @@ export default function App() {
       </div>
     </Router>
 
-    // <BrowserRouter >
-    //   <div>
-    //     <KaydedilenlerListesi list={[ /* Burası esnek */]} />
-    //<KaydedilenlerListesi list={[ /* Burası esnek */]} name={'trend_listesi'} />
-    //     <div>Bu Div'i kendi Routelarınızla değiştirin</div>
-    //   </div>
-    //   <BrowserRouter />
   );
 }

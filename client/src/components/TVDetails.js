@@ -1,6 +1,6 @@
 import React from "react";
 
-const TrendDatail = (props) => {
+const TVDetail = (props) => {
     const {name, overview, poster_path, vote_average } = props
     
     return(
@@ -14,4 +14,4 @@ const TrendDatail = (props) => {
     )
 }
 
-export default TrendDatail;
+export default TVDetail;
